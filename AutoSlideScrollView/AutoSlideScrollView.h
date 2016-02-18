@@ -36,4 +36,9 @@
  **/
 @property (nonatomic , copy) void (^TapActionBlock)(NSInteger pageIndex);
 
+/**
+ 自动滚动的间隔时长。如果<=0，不自动滚动。
+ */
+@property (nonatomic , assign) NSTimeInterval animationDuration;
+
 @end
