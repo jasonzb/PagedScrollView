@@ -58,7 +58,7 @@
         if (self.totalPageCount > 1) {
             self.scrollView.scrollEnabled = YES;
             self.scrollView.contentOffset = CGPointMake(CGRectGetWidth(self.scrollView.frame), 0);
-            [self.animationTimer resumeTimerAfterTimeInterval:self.animationDuration];
+            [self.animationTimer resumeTimerAfterTimeInterval:_animationDuration];
         } else {
             self.scrollView.scrollEnabled = NO;
         }
@@ -82,19 +82,25 @@
 
 - (void)setAnimationDuration:(NSTimeInterval)animationDuration
 {
-    self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:(self.animationDuration = animationDuration)
-                                                           target:self
-                                                         selector:@selector(animationTimerDidFired:)
-                                                         userInfo:nil
-                                                          repeats:YES];
-    [self.animationTimer pauseTimer];
+    _animationDuration = animationDuration;
+    if (animationDuration > 0.0) {
+        self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:animationDuration
+                                                               target:self
+                                                             selector:@selector(animationTimerDidFired:)
+                                                             userInfo:nil
+                                                              repeats:YES];
+        [self.animationTimer resumeTimer];
+    } else {
+        [self.animationTimer invalidate];
+        self.animationTimer = nil;
+    }
 }
 
 - (id)initWithFrame:(CGRect)frame animationDuration:(NSTimeInterval)animationDuration
 {
     self = [self initWithFrame:frame];
     if (animationDuration > 0.0) {
-        self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:(self.animationDuration = animationDuration)
+        self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:animationDuration
                                                                target:self
                                                              selector:@selector(animationTimerDidFired:)
                                                              userInfo:nil
@@ -117,7 +123,7 @@
         [self addSubview:self.scrollView];
         self.scrollView.showsHorizontalScrollIndicator = NO;
         self.currentPageIndex = 0;
-        self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:(self.animationDuration = 3)
+        self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:3
                                                                target:self
                                                              selector:@selector(animationTimerDidFired:)
                                                              userInfo:nil
@@ -227,7 +233,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    [self.animationTimer resumeTimerAfterTimeInterval:self.animationDuration];
+    [self.animationTimer resumeTimerAfterTimeInterval:_animationDuration];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
