@@ -80,6 +80,16 @@
     [self.pageControl setCurrentPage:_currentPageIndex];
 }
 
+- (void)setAnimationDuration:(NSTimeInterval)animationDuration
+{
+    self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:(self.animationDuration = animationDuration)
+                                                           target:self
+                                                         selector:@selector(animationTimerDidFired:)
+                                                         userInfo:nil
+                                                          repeats:YES];
+    [self.animationTimer pauseTimer];
+}
+
 - (id)initWithFrame:(CGRect)frame animationDuration:(NSTimeInterval)animationDuration
 {
     self = [self initWithFrame:frame];
