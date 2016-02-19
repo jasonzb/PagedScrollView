@@ -96,6 +96,14 @@
     }
 }
 
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    self.scrollView.frame = self.bounds;
+    CGSize size = self.scrollView.contentSize;
+    size.height = CGRectGetHeight(self.scrollView.frame);
+    self.scrollView.contentSize = size;
+}
+
 - (id)initWithFrame:(CGRect)frame animationDuration:(NSTimeInterval)animationDuration
 {
     self = [self initWithFrame:frame];
